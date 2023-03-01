@@ -2,7 +2,7 @@
 
 namespace Gradebook.Repositories
 {
-    public class GradesRepository
+    public class GradesRepository : IGradesRepository
     {
         private readonly List<GradeRecord> gradeRecords = new()
         {
@@ -11,7 +11,7 @@ namespace Gradebook.Repositories
             new GradeRecord {GradeRecordId = Guid.NewGuid(), CreatedDate = DateTime.Now, Description = "Group project", Grade = 5, Subject = "Math" }
         };
 
-        public IEnumerable<GradeRecord> GetItems()
+        public IEnumerable<GradeRecord> GetGradeRecords()
         {
             return gradeRecords;
         }
@@ -19,6 +19,23 @@ namespace Gradebook.Repositories
         public GradeRecord GetGradeRecord(Guid gradeRecordId)
         {
             return gradeRecords.SingleOrDefault(gradeRecord => gradeRecord.GradeRecordId == gradeRecordId);
+        }
+
+        public void CreateGradeRecord(GradeRecord gradeRecord)
+        {
+            gradeRecords.Add(gradeRecord);
+        }
+
+        public void UpdateGradeRecord(GradeRecord gradeRecord)
+        {
+            var index = gradeRecords.FindIndex(existingRecord => existingRecord.GradeRecordId == gradeRecord.GradeRecordId);
+            gradeRecords[index] = gradeRecord;
+        }
+
+        public void DeleteGradeRecord(Guid gradeRecordId)
+        {
+            var index = gradeRecords.FindIndex(existingRecord => existingRecord.GradeRecordId == gradeRecordId);
+            gradeRecords.RemoveAt(index);
         }
     }
 }

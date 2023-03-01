@@ -1,4 +1,5 @@
-﻿using Gradebook.Model;
+﻿using Gradebook.DTOs;
+using Gradebook.Model;
 using Gradebook.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,104 +10,85 @@ namespace Gradebook.Controllers
     [Route("grades")]
     public class GradesController : ControllerBase
     {
-        private readonly GradesRepository _gradesRepository;
+        private readonly IGradesRepository _gradesRepository;
 
-        public GradesController()
+        public GradesController(IGradesRepository repository)
         {
-            _gradesRepository = new GradesRepository();
+            this._gradesRepository = repository;
         }
 
         [HttpGet]
-        public IEnumerable<GradeRecord> GetGradeRecords()
+        public IEnumerable<GradeRecordDTO> GetGradeRecords()
         {
-            var gradeRecords = _gradesRepository.GetItems();
+            var gradeRecords = _gradesRepository.GetGradeRecords().Select(gradeRecord => gradeRecord.AsDTO());
             return gradeRecords;    
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GradeRecord> GetGradeRecord(Guid id)
+        public ActionResult<GradeRecordDTO> GetGradeRecord(Guid id)
         {
             var gradeRecord = _gradesRepository.GetGradeRecord(id);
             if (gradeRecord == null)
             {
                 return NotFound();
             }
-            return Ok(gradeRecord);
-        }
-/*
-        // GET: GradesController
-        public ActionResult Index()
-        {
-            return View();
+            return Ok(gradeRecord.AsDTO());
         }
 
-        // GET: GradesController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: GradesController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: GradesController/Create
+        //POST /grades
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult<GradeRecordDTO> CreateGradeRecord(CreateGradeRecordDTO createGradeRecordDTO)
         {
-            try
+            GradeRecord gradeRecord = new()
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                GradeRecordId = Guid.NewGuid(),
+                Description = createGradeRecordDTO.Description,
+                Subject = createGradeRecordDTO.Subject,
+                Grade = createGradeRecordDTO.Grade,
+                CreatedDate = DateTimeOffset.UtcNow
+            };
+
+            _gradesRepository.CreateGradeRecord(gradeRecord);
+            return CreatedAtAction(nameof(GetGradeRecord), new { id = gradeRecord.GradeRecordId}, gradeRecord.AsDTO());
         }
 
-        // GET: GradesController/Edit/5
-        public ActionResult Edit(int id)
+        //PUT /grades/{id}
+        [HttpPut("{id}")]
+        public ActionResult UpdateGradeRecord(Guid id, UpdateGradeRecordDTO updateGradeRecordDTO)
         {
-            return View();
+            var existingRecord = _gradesRepository.GetGradeRecord(id);
+
+            if(existingRecord is null)
+            {
+                return NotFound();
+            }
+
+            GradeRecord updatedGradeRecord = existingRecord with
+            {
+                Description = updateGradeRecordDTO.Description,
+                Subject = updateGradeRecordDTO.Subject,
+                Grade = updateGradeRecordDTO.Grade
+            };
+
+            _gradesRepository.UpdateGradeRecord(updatedGradeRecord);
+
+            return NoContent();
         }
 
-        // POST: GradesController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        //DELETE /grades/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteGradeRecord(Guid id) 
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            var existingRecord = _gradesRepository.GetGradeRecord(id);
 
-        // GET: GradesController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+            if (existingRecord is null)
+            {
+                return NotFound();
+            }
 
-        // POST: GradesController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
+            _gradesRepository.DeleteGradeRecord(id);
+
+            return NoContent();
+        }
     }
 }
