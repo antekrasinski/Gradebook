@@ -1,5 +1,8 @@
-﻿namespace Gradebook.Model
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace Gradebook.Model
 {
+    [BsonIgnoreExtraElements]
     public record GradeRecord
     {
         public Guid GradeRecordId { get; init; }
