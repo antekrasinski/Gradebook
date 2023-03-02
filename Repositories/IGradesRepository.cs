@@ -4,11 +4,11 @@ namespace Gradebook.Repositories
 {
     public interface IGradesRepository
     {
-        GradeRecord GetGradeRecord(Guid gradeRecordId);
-        IEnumerable<GradeRecord> GetGradeRecords();
-        void CreateGradeRecord (GradeRecord gradeRecord);
-        void UpdateGradeRecord(GradeRecord gradeRecord);
-        void DeleteGradeRecord(Guid gradeRecordId);
+        Task<GradeRecord> GetGradeRecordAsync(Guid gradeRecordId);
+        Task<IEnumerable<GradeRecord>> GetGradeRecords();
+        Task CreateGradeRecordAsync (GradeRecord gradeRecord);
+        Task UpdateGradeRecordAsync(GradeRecord gradeRecord);
+        Task DeleteGradeRecordAsync(Guid gradeRecordId);
     }
 
 }

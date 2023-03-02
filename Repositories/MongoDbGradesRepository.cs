@@ -21,32 +21,32 @@ namespace Gradebook.Repositories
             _gradesCollection = database.GetCollection<GradeRecord>(collectionName);
         }
 
-        public void CreateGradeRecord(GradeRecord gradeRecord)
+        public  async Task CreateGradeRecordAsync(GradeRecord gradeRecord)
         {
-            _gradesCollection.InsertOne(gradeRecord);
+            await _gradesCollection.InsertOneAsync(gradeRecord);
         }
 
-        public void DeleteGradeRecord(Guid gradeRecordId)
+        public async Task DeleteGradeRecordAsync(Guid gradeRecordId)
         {
             var filter = filterBuilder.Eq(existingRecord => existingRecord.GradeRecordId, gradeRecordId);
-            _gradesCollection.DeleteOne(filter);
+            await _gradesCollection.DeleteOneAsync(filter);
         }
 
-        public GradeRecord GetGradeRecord(Guid gradeRecordId)
+        public async Task<GradeRecord> GetGradeRecordAsync(Guid gradeRecordId)
         {
             var filter = filterBuilder.Eq(gradeRecord => gradeRecord.GradeRecordId, gradeRecordId);
-            return _gradesCollection.Find(filter).SingleOrDefault();
+            return await _gradesCollection.Find(filter).SingleOrDefaultAsync();
         }
 
-        public IEnumerable<GradeRecord> GetGradeRecords()
+        public async Task<IEnumerable<GradeRecord>> GetGradeRecords()
         {
-            return _gradesCollection.Find(new BsonDocument()).ToList();
+            return await _gradesCollection.Find(new BsonDocument()).ToListAsync();
         }
 
-        public void UpdateGradeRecord(GradeRecord gradeRecord)
+        public async Task UpdateGradeRecordAsync(GradeRecord gradeRecord)
         {
             var filter = filterBuilder.Eq(existingRecord => existingRecord.GradeRecordId, gradeRecord.GradeRecordId);
-            _gradesCollection.ReplaceOne(filter, gradeRecord);
+            await _gradesCollection.ReplaceOneAsync(filter, gradeRecord);
         }
     }
 }

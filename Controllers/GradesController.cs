@@ -18,16 +18,16 @@ namespace Gradebook.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GradeRecordDTO> GetGradeRecords()
+        public async Task <IEnumerable<GradeRecordDTO>> GetGradeRecordsAsync()
         {
-            var gradeRecords = _gradesRepository.GetGradeRecords().Select(gradeRecord => gradeRecord.AsDTO());
+            var gradeRecords = (await _gradesRepository.GetGradeRecords()).Select(gradeRecord => gradeRecord.AsDTO());
             return gradeRecords;    
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GradeRecordDTO> GetGradeRecord(Guid id)
+        public async Task<ActionResult<GradeRecordDTO>> GetGradeRecordAsync(Guid id)
         {
-            var gradeRecord = _gradesRepository.GetGradeRecord(id);
+            var gradeRecord = await _gradesRepository.GetGradeRecordAsync(id);
             if (gradeRecord == null)
             {
                 return NotFound();
@@ -37,7 +37,7 @@ namespace Gradebook.Controllers
 
         //POST /grades
         [HttpPost]
-        public ActionResult<GradeRecordDTO> CreateGradeRecord(CreateGradeRecordDTO createGradeRecordDTO)
+        public async Task<ActionResult<GradeRecordDTO>> CreateGradeRecordAsync(CreateGradeRecordDTO createGradeRecordDTO)
         {
             GradeRecord gradeRecord = new()
             {
@@ -48,15 +48,15 @@ namespace Gradebook.Controllers
                 CreatedDate = DateTimeOffset.UtcNow
             };
 
-            _gradesRepository.CreateGradeRecord(gradeRecord);
-            return CreatedAtAction(nameof(GetGradeRecord), new { id = gradeRecord.GradeRecordId}, gradeRecord.AsDTO());
+            await _gradesRepository.CreateGradeRecordAsync(gradeRecord);
+            return CreatedAtAction(nameof(GetGradeRecordAsync), new { id = gradeRecord.GradeRecordId}, gradeRecord.AsDTO());
         }
 
         //PUT /grades/{id}
         [HttpPut("{id}")]
-        public ActionResult UpdateGradeRecord(Guid id, UpdateGradeRecordDTO updateGradeRecordDTO)
+        public async Task<ActionResult> UpdateGradeRecordAsync(Guid id, UpdateGradeRecordDTO updateGradeRecordDTO)
         {
-            var existingRecord = _gradesRepository.GetGradeRecord(id);
+            var existingRecord = await _gradesRepository.GetGradeRecordAsync(id);
 
             if(existingRecord is null)
             {
@@ -70,23 +70,23 @@ namespace Gradebook.Controllers
                 Grade = updateGradeRecordDTO.Grade
             };
 
-            _gradesRepository.UpdateGradeRecord(updatedGradeRecord);
+            await _gradesRepository.UpdateGradeRecordAsync(updatedGradeRecord);
 
             return NoContent();
         }
 
         //DELETE /grades/{id}
         [HttpDelete("{id}")]
-        public ActionResult DeleteGradeRecord(Guid id) 
+        public async Task<ActionResult> DeleteGradeRecordAsync(Guid id) 
         {
-            var existingRecord = _gradesRepository.GetGradeRecord(id);
+            var existingRecord = await _gradesRepository.GetGradeRecordAsync(id);
 
             if (existingRecord is null)
             {
                 return NotFound();
             }
 
-            _gradesRepository.DeleteGradeRecord(id);
+            await _gradesRepository.DeleteGradeRecordAsync(id);
 
             return NoContent();
         }

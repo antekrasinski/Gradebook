@@ -11,31 +11,34 @@ namespace Gradebook.Repositories
             new GradeRecord {GradeRecordId = Guid.NewGuid(), CreatedDate = DateTime.Now, Description = "Group project", Grade = 5, Subject = "Math" }
         };
 
-        public IEnumerable<GradeRecord> GetGradeRecords()
+        public async Task<IEnumerable<GradeRecord>> GetGradeRecords()
         {
-            return gradeRecords;
+            return await Task.FromResult(gradeRecords);
         }
 
-        public GradeRecord GetGradeRecord(Guid gradeRecordId)
+        public async Task<GradeRecord> GetGradeRecordAsync(Guid gradeRecordId)
         {
-            return gradeRecords.SingleOrDefault(gradeRecord => gradeRecord.GradeRecordId == gradeRecordId);
+            return await Task.FromResult(gradeRecords.SingleOrDefault(gradeRecord => gradeRecord.GradeRecordId == gradeRecordId));
         }
 
-        public void CreateGradeRecord(GradeRecord gradeRecord)
+        public async Task CreateGradeRecordAsync(GradeRecord gradeRecord)
         {
             gradeRecords.Add(gradeRecord);
+            await Task.CompletedTask;
         }
 
-        public void UpdateGradeRecord(GradeRecord gradeRecord)
+        public async Task UpdateGradeRecordAsync(GradeRecord gradeRecord)
         {
             var index = gradeRecords.FindIndex(existingRecord => existingRecord.GradeRecordId == gradeRecord.GradeRecordId);
             gradeRecords[index] = gradeRecord;
+            await Task.CompletedTask;
         }
 
-        public void DeleteGradeRecord(Guid gradeRecordId)
+        public async Task DeleteGradeRecordAsync(Guid gradeRecordId)
         {
             var index = gradeRecords.FindIndex(existingRecord => existingRecord.GradeRecordId == gradeRecordId);
             gradeRecords.RemoveAt(index);
+            await Task.CompletedTask;
         }
     }
 }
