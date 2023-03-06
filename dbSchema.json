@@ -1,0 +1,96 @@
+{
+    "students": [
+        {
+            "studentId": "Guid",
+            "name": "string",
+            "surname": "string",
+            "dateOfBirth": "date",
+            "subjects": [
+                {
+                    "subjectId": "Guid",
+                    "subjectName": "string",
+                    "teacher": "string",
+                    "gradeRecords": [
+                        {
+                            "gradeRecordId": "Guid",
+                            "grade": "double",
+                            "description": "string",
+                            "createdDate": "date"
+                        },
+                        {
+                            "gradeRecordId": "Guid",
+                            "grade": "double",
+                            "description": "string",
+                            "createdDate": "date"
+                        }
+                    ]
+                },
+                {
+                    "subjectId": "Guid",
+                    "subjectName": "string",
+                    "teacher": "string",
+                    "gradeRecords": [
+                        {
+                            "gradeRecordId": "Guid",
+                            "grade": "double",
+                            "description": "string",
+                            "createdDate": "date"
+                        },
+                        {
+                            "gradeRecordId": "Guid",
+                            "grade": "double",
+                            "description": "string",
+                            "createdDate": "date"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "studentId": "Guid",
+            "name": "string",
+            "surname": "string",
+            "dateOfBirth": "date",
+            "subjects": [
+                {
+                    "subjectId": "Guid",
+                    "subjectName": "string",
+                    "teacher": "string",
+                    "gradeRecords": [
+                        {
+                            "gradeRecordId": "Guid",
+                            "grade": "double",
+                            "description": "string",
+                            "createdDate": "date"
+                        },
+                        {
+                            "gradeRecordId": "Guid",
+                            "grade": "double",
+                            "description": "string",
+                            "createdDate": "date"
+                        }
+                    ]
+                },
+                {
+                    "subjectId": "Guid",
+                    "subjectName": "string",
+                    "teacher": "string",
+                    "gradeRecords": [
+                        {
+                            "gradeRecordId": "Guid",
+                            "grade": "double",
+                            "description": "string",
+                            "createdDate": "date"
+                        },
+                        {
+                            "gradeRecordId": "Guid",
+                            "grade": "double",
+                            "description": "string",
+                            "createdDate": "date"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
