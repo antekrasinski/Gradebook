@@ -5,7 +5,7 @@ namespace Gradebook
 {
     public static class Extensions
     {
-        public static GradeRecordDTO AsDTO(this GradeRecord gradeRecord) 
+        public static GradeRecordDTO GradeAsDTO(this GradeRecord gradeRecord) 
         {
             return new GradeRecordDTO
             {
@@ -13,7 +13,17 @@ namespace Gradebook
                 CreatedDate = gradeRecord.CreatedDate,
                 Grade = gradeRecord.Grade,
                 Description = gradeRecord.Description,
-                Subject = gradeRecord.Subject
+                StudentId = gradeRecord.StudentId,
+                SubjectId = gradeRecord.SubjectId
+            };
+        }
+        public static SubjectDTO SubjectAsDTO(this Subject subject)
+        {
+            return new SubjectDTO
+            {
+                SubjectId = subject.SubjectId,
+                SubjectName = subject.SubjectName,
+                Teacher = subject.Teacher
             };
         }
     }
