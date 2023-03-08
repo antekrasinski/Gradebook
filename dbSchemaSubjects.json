@@ -1,0 +1,6 @@
+{
+  "_id": "ObjectId",
+  "subjectId": "Guid",
+  "subjectName": "string",
+  "teacher": "string"
+}

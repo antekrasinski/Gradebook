@@ -1,0 +1,9 @@
+{
+  "_id":  "ObjectId",
+  "studentId": "Guid",
+  "name": "string",
+  "surname": "string",
+  "dateOfBirth": "date",
+  "subjectsIds": [ "Guid", "Guid"],
+  "gradesIds":  ["Guid", "Guid"]
+}

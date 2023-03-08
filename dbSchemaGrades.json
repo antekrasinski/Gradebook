@@ -1,0 +1,9 @@
+{
+  "_id":  "ObjectId",
+  "gradeRecordId": "Guid",
+  "grade": "double",
+  "description": "string",
+  "createdDate": "date",
+  "studentId": "Guid",
+  "subjectId": "Guid"
+}
