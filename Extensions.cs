@@ -26,5 +26,17 @@ namespace Gradebook
                 Teacher = subject.Teacher
             };
         }
+        public static StudentDTO StudentAsDTO(this Student student)
+        {
+            return new StudentDTO
+            {
+                StudentId = student.StudentId,
+                Name = student.Name,
+                Surname = student.Surname,
+                DateOfBirth = student.DateOfBirth,
+                SubjectsIds = student.SubjectsIds,
+                GradesIds = student.GradesIds
+            };
+        }
     }
 }
