@@ -26,9 +26,15 @@ namespace Gradebook.Repositories
             await _gradesCollection.InsertOneAsync(gradeRecord);
         }
 
+        public async Task DeleteAllStudentsGradesAsync(Guid studentId)
+        {
+            var filter = filterBuilder.Eq(gradeRecord => gradeRecord.StudentId, studentId);
+            await _gradesCollection.DeleteManyAsync(filter);
+        }
+
         public async Task DeleteGradeRecordAsync(Guid gradeRecordId)
         {
-            var filter = filterBuilder.Eq(existingRecord => existingRecord.GradeRecordId, gradeRecordId);
+            var filter = filterBuilder.Eq(gradeRecord => gradeRecord.GradeRecordId, gradeRecordId);
             await _gradesCollection.DeleteOneAsync(filter);
         }
 
@@ -38,14 +44,14 @@ namespace Gradebook.Repositories
             return await _gradesCollection.Find(filter).SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<GradeRecord>> GetGradeRecords()
+        public async Task<IEnumerable<GradeRecord>> GetGradeRecordsAsync()
         {
             return await _gradesCollection.Find(new BsonDocument()).ToListAsync();
         }
 
         public async Task UpdateGradeRecordAsync(GradeRecord gradeRecord)
         {
-            var filter = filterBuilder.Eq(existingRecord => existingRecord.GradeRecordId, gradeRecord.GradeRecordId);
+            var filter = filterBuilder.Eq(gradeRecord => gradeRecord.GradeRecordId, gradeRecord.GradeRecordId);
             await _gradesCollection.ReplaceOneAsync(filter, gradeRecord);
         }
     }

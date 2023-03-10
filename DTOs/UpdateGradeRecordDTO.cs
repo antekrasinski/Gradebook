@@ -10,6 +10,8 @@ namespace Gradebook.DTOs
         [Required]
         public string? Description { get; init; }
         [Required]
-        public string? Subject { get; init; }
+        public Guid SubjectId { get; init; }
+        [Required]
+        public Guid StudentId { get; init; }
     }
 }
