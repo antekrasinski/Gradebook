@@ -19,7 +19,7 @@ namespace Gradebook.Controllers
         [HttpGet]
         public async Task<IEnumerable<SubjectDTO>> GetSubjects()
         {
-            var subjects = (await _subjectsRepository.GetSubjects()).Select(subject => subject.SubjectAsDTO());
+            var subjects = (await _subjectsRepository.GetSubjectsAsync()).Select(subject => subject.SubjectAsDTO());
             return subjects;
         }
 

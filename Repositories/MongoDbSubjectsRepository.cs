@@ -39,7 +39,7 @@ namespace Gradebook.Repositories
             return await _subjectsCollection.Find(filter).SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Subject>> GetSubjects()
+        public async Task<IEnumerable<Subject>> GetSubjectsAsync()
         {
             return await _subjectsCollection.Find(new BsonDocument()).ToListAsync();
         }
